@@ -1,16 +1,23 @@
 import { Text, View, TouchableOpacity, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
+import {submitSurveyAnswers} from "@/services/surveyService";
 
 const Survey = () => {
     const [answers, setAnswers] = useState({});
-
-    const handleAnswer = (questionId, answer) => {
+    const [survey, setSurvey] = useState({});
+    const handleAnswer = (questionId: number, answer: string) => {
         setAnswers(prev => ({ ...prev, [questionId]: answer }));
     };
 
-    const handleSubmit = () => {
-        // Logic for form submission
+    const handleSubmit = async () => {
+        try {
+            await submitSurveyAnswers(answers, survey.id); // Submit the answers
+            console.log("Survey submitted successfully!");
+            // Optionally show a confirmation message or redirect
+        } catch (error) {
+            console.error("Failed to submit answers:", error);
+        }
         console.log("Survey answers:", answers);
         // You can redirect or show a confirmation message after submission
     };

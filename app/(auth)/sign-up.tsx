@@ -1,13 +1,35 @@
 import { Text, TextInput, View, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router"; // Assuming you're using Expo Router
+import { UserContext } from '../UserContext';
+import { postSignUpDetails } from "@/services/authService";
+import { useContext, useState } from "react";
 
+// modify the hooks for a single json
 const SignUp = () => {
     const router = useRouter();
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [err, setErr] = useState('');
+    const { updateUser } = useContext(UserContext);
 
-    const handleSignUp = () => {
-        // Logic to handle sign-up (e.g., API call)
+    const handleSignUp = async () => {
         console.log("Sign up button pressed");
+        try{
+            const response = await postSignUpDetails({username, email, password});
+            if(response.success){
+                updateUser(response.user);
+                router.replace("/(tabs)/home"); // Redirect to home page after successful sign-in
+            }
+            else {
+                setErr(response.message);
+            }
+        }
+        catch (err){
+            console.error("Sign up failed", err);
+            setErr("Sign up failed due to unknown error.");
+        }
     };
 
     const handleSignInRedirect = () => {
@@ -39,6 +61,8 @@ const SignUp = () => {
                     placeholder="Username"
                     placeholderTextColor="gray"
                     keyboardType="default"
+                    value={username}
+                    onChangeText={setUsername}
                 />
 
                 {/* Gmail Input */}
@@ -47,6 +71,8 @@ const SignUp = () => {
                     placeholder="Gmail"
                     placeholderTextColor="gray"
                     keyboardType="email-address"
+                    value={email}
+                    onChangeText={setEmail}
                 />
 
                 {/* Password Input */}
@@ -55,6 +81,8 @@ const SignUp = () => {
                     placeholder="Password"
                     placeholderTextColor="gray"
                     secureTextEntry
+                    value={password}
+                    onChangeText={setPassword}
                 />
             </View>
 
@@ -75,7 +103,7 @@ const SignUp = () => {
                 <Text className="text-gray-400">
                     Already have an account?{' '}
                     <Text className="text-purple-400 font-bold" onPress={handleSignInRedirect}>
-                        Sign In
+                        Sign up
                     </Text>
                 </Text>
             </View>

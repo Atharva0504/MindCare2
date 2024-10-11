@@ -1,14 +1,35 @@
 import { Text, TextInput, View, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router"; // Assuming you're using Expo Router
+import { UserContext } from '../UserContext';
+import { postSignInDetailsTemp } from "@/services/authService";
+import {useContext, useState} from "react";
 
 const SignIn = () => {
     const router = useRouter();
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [err, setErr] = useState('');
+    const { updateUser } = useContext(UserContext);
 
-    const handleSignIn = () => {
-        // Logic to handle sign-in (e.g., API call, form validation)
+    const handleSignIn = async () => {
+
         console.log("Sign in button pressed");
-        router.replace("/(tabs)/home"); // Redirect to home page after successful sign-in
+        try{
+            const response = await postSignInDetailsTemp({username, password});
+            if(response.success){
+                updateUser(response.user);
+                router.replace("/(tabs)/home"); // Redirect to home page after successful sign-in
+            }
+            else {
+                setErr(`${response.message}`);
+            }
+        }
+        catch (err){
+            console.error("Sign in failed", err);
+            setErr("Sign in failed due to unknown error.");
+        }
+
     };
 
     const handleSignUpRedirect = () => {
@@ -35,6 +56,8 @@ const SignIn = () => {
                     placeholder="Username"
                     placeholderTextColor="gray"
                     keyboardType="default"
+                    value={username}
+                    onChangeText={setUsername}
                 />
 
                 {/* Password Input */}
@@ -43,6 +66,8 @@ const SignIn = () => {
                     placeholder="Password"
                     placeholderTextColor="gray"
                     secureTextEntry
+                    value={password}
+                    onChangeText={setPassword}
                 />
             </View>
 
