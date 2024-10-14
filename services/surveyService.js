@@ -15,13 +15,13 @@ export const getSurveyQuestions = async () => {
 
 // Example function to submit survey answers
 export const submitSurveyAnswers = async (answers, surveyID) => {
-    try {
-        const response = await api.post('surveys', answers, {
-            params: {userID: user.id, surveyID: surveyID}
-        }); // Adjust endpoint as needed
-        return response.data; // Return the data from the response
-    } catch (error) {
-        console.error("Error submitting answers:", error);
-        throw error; // Re-throw error for further handling
-    }
+    // try {
+    //     const response = await api.post('surveys', answers, {
+    //         params: {userID: user.id, surveyID: surveyID}
+    //     }); // Adjust endpoint as needed
+    //     return response.data; // Return the data from the response
+    // } catch (error) {
+    //     console.error("Error submitting answers:", error);
+    //     throw error; // Re-throw error for further handling
+    // }
 };

@@ -1,5 +1,6 @@
 import { ScrollViewStyleReset } from 'expo-router/html';
 import { type PropsWithChildren } from 'react';
+import {UserProvider} from "@/app/UserContext";
 
 /**
  * This file is web-only and used to configure the root HTML for every web page during static rendering.
@@ -7,6 +8,7 @@ import { type PropsWithChildren } from 'react';
  */
 export default function Root({ children }: PropsWithChildren) {
   return (
+      <UserProvider>
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
@@ -25,6 +27,7 @@ export default function Root({ children }: PropsWithChildren) {
       </head>
       <body>{children}</body>
     </html>
+      </UserProvider>
   );
 }
 

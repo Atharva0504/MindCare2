@@ -8,16 +8,30 @@ import { useContext, useState } from "react";
 // modify the hooks for a single json
 const SignUp = () => {
     const router = useRouter();
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [email, setEmail] = useState('');
+    const [formData, setFormData] = useState({
+        name: '',
+        username: '',
+        password: '',
+        email: '',
+        birthdate: '',
+        bloodgroup: '',
+        gender: '',
+        data: ''
+    });
     const [err, setErr] = useState('');
     const { updateUser } = useContext(UserContext);
+    const handleTextChange = (field: any, value: any) => {
+        setFormData(prevState => ({
+            ...prevState,
+            [field]: value
+        }));
+    };
 
     const handleSignUp = async () => {
         console.log("Sign up button pressed");
+        console.log("Form Data:", formData);
         try{
-            const response = await postSignUpDetails({username, email, password});
+            const response = await postSignUpDetails(formData);
             if(response.success){
                 updateUser(response.user);
                 router.replace("/(tabs)/home"); // Redirect to home page after successful sign-in
@@ -53,6 +67,8 @@ const SignUp = () => {
                     placeholder="Full Name"
                     placeholderTextColor="gray"
                     keyboardType="default"
+                    value={formData.name}
+                    onChangeText={(text)=>handleTextChange('name', text)}
                 />
                 
                 {/* Username Input */}
@@ -61,8 +77,8 @@ const SignUp = () => {
                     placeholder="Username"
                     placeholderTextColor="gray"
                     keyboardType="default"
-                    value={username}
-                    onChangeText={setUsername}
+                    value={formData.username}
+                    onChangeText={(text)=>handleTextChange('username', text)}
                 />
 
                 {/* Gmail Input */}
@@ -71,8 +87,8 @@ const SignUp = () => {
                     placeholder="Gmail"
                     placeholderTextColor="gray"
                     keyboardType="email-address"
-                    value={email}
-                    onChangeText={setEmail}
+                    value={formData.email}
+                    onChangeText={(text)=>handleTextChange('email', text)}
                 />
 
                 {/* Password Input */}
@@ -81,9 +97,43 @@ const SignUp = () => {
                     placeholder="Password"
                     placeholderTextColor="gray"
                     secureTextEntry
-                    value={password}
-                    onChangeText={setPassword}
+                    value={formData.password}
+                    onChangeText={(text)=>handleTextChange('password', text)}
                 />
+
+                <TextInput
+                    className="bg-gray-800 text-white p-4 rounded-md placeholder-gray-400"
+                    placeholder="Gender"
+                    placeholderTextColor="gray"
+                    value={formData.gender}
+                    onChangeText={(text)=>handleTextChange('gender', text)}
+                />
+
+                <TextInput
+                    className="bg-gray-800 text-white p-4 rounded-md placeholder-gray-400"
+                    placeholder="Blood Group"
+                    placeholderTextColor="gray"
+                    value={formData.bloodgroup}
+                    onChangeText={(text)=>handleTextChange('bloodgroup', text)}
+                />
+
+                <TextInput
+                    className="bg-gray-800 text-white p-4 rounded-md placeholder-gray-400"
+                    placeholder="Birthdate"
+                    placeholderTextColor="gray"
+                    value={formData.birthdate}
+                    onChangeText={(text)=>handleTextChange('birthdate', text)}
+                />
+
+                <TextInput
+                    className="bg-gray-800 text-white p-4 rounded-md placeholder-gray-400"
+                    placeholder="Data"
+                    placeholderTextColor="gray"
+                    value={formData.data}
+                    onChangeText={(text)=>handleTextChange('data', text)}
+                />
+
+
             </View>
 
             {/* Sign Up Button */}

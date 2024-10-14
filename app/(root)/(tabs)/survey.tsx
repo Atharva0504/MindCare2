@@ -1,9 +1,11 @@
 import { Text, View, TouchableOpacity, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {submitSurveyAnswers} from "@/services/surveyService";
+import {UserContext} from "@/app/UserContext";
 
 const Survey = () => {
+    const { user } = useContext(UserContext) || {};
     const [answers, setAnswers] = useState({});
     const [survey, setSurvey] = useState({});
     const handleAnswer = (questionId: number, answer: string) => {
