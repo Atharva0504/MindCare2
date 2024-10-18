@@ -153,7 +153,7 @@ const SignUp = () => {
                 <Text className="text-gray-400">
                     Already have an account?{' '}
                     <Text className="text-purple-400 font-bold" onPress={handleSignInRedirect}>
-                        Sign up
+                        Sign in
                     </Text>
                 </Text>
             </View>

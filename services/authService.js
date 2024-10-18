@@ -4,7 +4,7 @@ import axios from "axios";
 // Example function to get survey questions
 export const postSignInDetails = async ({username, password}) => {
     try {
-        const response = await api.post('auth/signin', {username, password}); // Adjust endpoint as needed
+        const response = await axios.post('http://192.168.1.5:8080/java/api/auth/login_page', {username, password}); // Adjust endpoint as needed
         if(response.data.success){
             return ({
                 success: true,
@@ -37,7 +37,7 @@ export const postSignInDetailsTemp = async ({ username, password }) => {
     console.log("Username: ", username);
     console.log("Password: ", password);
 
-    const response = await axios.post('http://192.168.1.5:8080/java/api/auth/login_page',
+    const response = await api.post('auth/login_page',
         params, // Send the URL-encoded form data
         {
             headers: {

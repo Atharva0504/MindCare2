@@ -10,7 +10,7 @@ const SignIn = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [err, setErr] = useState('');
-    const { updateUser } = useContext(UserContext);
+    const { user, updateUser } = useContext(UserContext);
 
     const handleSignIn = async () => {
 
@@ -18,7 +18,9 @@ const SignIn = () => {
         try{
             const response = await postSignInDetailsTemp({username, password});
             if(response.success){
+                console.log("Response.user: ", response.user);
                 updateUser(response.user);
+                console.log("After updateUser: ", user);
                 router.replace("/(tabs)/home"); // Redirect to home page after successful sign-in
             }
             else {

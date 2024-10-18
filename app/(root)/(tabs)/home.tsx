@@ -1,11 +1,15 @@
 import { Text, View, TouchableOpacity, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
-import Icon from 'react-native-vector-icons/FontAwesome'; // Import FontAwesome icons
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {useContext} from "react";
+import {UserContext} from "@/app/UserContext"; // Import FontAwesome icons
 
 const Home = () => {
     const router = useRouter();
+    const { user, updateUser } = useContext(UserContext);
 
+    console.log("After updateUser: ", user);
     const handleSurveyRedirect = () => {
         router.push("/(tabs)/survey"); // Redirects to the survey page in the tabs
     };

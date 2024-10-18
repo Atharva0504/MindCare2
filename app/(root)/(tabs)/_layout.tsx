@@ -3,13 +3,13 @@ import {UserProvider} from "@/app/UserContext";
 
 const LayoutTabs = () => {
   return (
-      <UserProvider>
+      // <UserProvider>
     <Stack>
       <Stack.Screen name="home" options={{ headerShown: false }} />
       <Stack.Screen name="profile" options={{ headerShown: false }} />
       <Stack.Screen name="survey" options={{ headerShown: false }} />
     </Stack>
-      </UserProvider>
+      // </UserProvider>
   );
 };
 
